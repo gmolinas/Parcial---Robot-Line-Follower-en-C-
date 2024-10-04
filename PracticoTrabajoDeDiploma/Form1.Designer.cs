@@ -133,6 +133,8 @@
             // 
             // dtpFechaDesde
             // 
+            this.dtpFechaDesde.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpFechaDesde.Location = new System.Drawing.Point(193, 261);
             this.dtpFechaDesde.Name = "dtpFechaDesde";
             this.dtpFechaDesde.Size = new System.Drawing.Size(200, 20);
@@ -140,7 +142,9 @@
             // 
             // dtpFechaHasta
             // 
-            this.dtpFechaHasta.Location = new System.Drawing.Point(193, 302);
+            this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpFechaHasta.CustomFormat = "MM/dd/yyyy hh:mm:ss";
+            this.dtpFechaHasta.Location = new System.Drawing.Point(193, 322);
             this.dtpFechaHasta.Name = "dtpFechaHasta";
             this.dtpFechaHasta.Size = new System.Drawing.Size(200, 20);
             this.dtpFechaHasta.TabIndex = 6;
@@ -148,7 +152,7 @@
             // lstRegistros
             // 
             this.lstRegistros.HideSelection = false;
-            this.lstRegistros.Location = new System.Drawing.Point(444, 90);
+            this.lstRegistros.Location = new System.Drawing.Point(461, 90);
             this.lstRegistros.Name = "lstRegistros";
             this.lstRegistros.Size = new System.Drawing.Size(258, 165);
             this.lstRegistros.TabIndex = 7;

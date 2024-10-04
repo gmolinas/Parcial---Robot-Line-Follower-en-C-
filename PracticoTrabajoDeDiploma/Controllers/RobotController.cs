@@ -2,13 +2,15 @@
 using Domain.Common;
 using Domain.Enums;
 using System;
+using System.Collections.Generic;
 
 namespace PracticoTrabajoDeDiploma.Controllers
 {
-    public class RobotController
+    public class RobotController : ISubject
     {
         private readonly IControladorMovimiento _controladorMovimiento;
         private readonly IStateChangeRepository _stateChangeRepository;
+        private List<IObserver> _observers = new List<IObserver>();
 
         public SensorState LecturaSensorIzquierdo { get; private set; }
         public SensorState LecturaSensorDerecho { get; private set; }
@@ -47,6 +49,8 @@ namespace PracticoTrabajoDeDiploma.Controllers
             // Obtener el movimiento y actualizar la acción actual
             var movimiento = _controladorMovimiento.DeterminarMovimiento(LecturaSensorIzquierdo, LecturaSensorDerecho);
             AccionActual = ObtenerDescripcionAccion(movimiento);
+            
+            Notify();
         }
 
         private string ObtenerDescripcionAccion(Movimiento movimiento)
@@ -64,6 +68,24 @@ namespace PracticoTrabajoDeDiploma.Controllers
                 return "Girar a la derecha";
 
             return "Acción desconocida";
+        }
+
+        public void Attach(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update();
+            }
         }
     }
 }

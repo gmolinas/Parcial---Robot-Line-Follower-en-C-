@@ -43,9 +43,11 @@
   <ItemGroup>
     <Compile Include="Common\Interfaces\IControladorMovimiento.cs" />
     <Compile Include="Common\Interfaces\IMotor.cs" />
+    <Compile Include="Common\Interfaces\IObserver.cs" />
     <Compile Include="Common\Interfaces\IParlante.cs" />
     <Compile Include="Common\Interfaces\ISensor.cs" />
     <Compile Include="Common\Interfaces\IStateChangeRepository.cs" />
+    <Compile Include="Common\Interfaces\ISubject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UseCase\ControladorMovimiento.cs" />
   </ItemGroup>
