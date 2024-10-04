@@ -41,10 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BinaryFileStateChangeRepository .cs" />
     <Compile Include="Services\StateChangeService.cs" />
+    <Compile Include="Tools\TypeLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj">
