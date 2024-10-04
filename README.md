@@ -91,6 +91,8 @@ Proyecto/
 
 ### Interfaz de Usuario
 
+![recording (3)](https://github.com/user-attachments/assets/28a12fea-d6a5-47b8-9c07-8b7d1403d6f1)
+
 La aplicación presenta una interfaz con los siguientes componentes:
 
 - **Panel de Simulación**: Área donde se muestra la simulación gráfica del robot.
