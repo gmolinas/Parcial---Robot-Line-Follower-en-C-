@@ -99,7 +99,7 @@
             // 
             // btnBuscarRegistros
             // 
-            this.btnBuscarRegistros.Location = new System.Drawing.Point(104, 244);
+            this.btnBuscarRegistros.Location = new System.Drawing.Point(113, 255);
             this.btnBuscarRegistros.Name = "btnBuscarRegistros";
             this.btnBuscarRegistros.Size = new System.Drawing.Size(117, 40);
             this.btnBuscarRegistros.TabIndex = 0;
@@ -141,16 +141,16 @@
             this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpFechaDesde.Location = new System.Drawing.Point(29, 214);
             this.dtpFechaDesde.Name = "dtpFechaDesde";
-            this.dtpFechaDesde.Size = new System.Drawing.Size(127, 20);
+            this.dtpFechaDesde.Size = new System.Drawing.Size(133, 20);
             this.dtpFechaDesde.TabIndex = 5;
             // 
             // dtpFechaHasta
             // 
             this.dtpFechaHasta.CustomFormat = "MM/dd/yyyy hh:mm:ss";
             this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFechaHasta.Location = new System.Drawing.Point(189, 214);
+            this.dtpFechaHasta.Location = new System.Drawing.Point(179, 214);
             this.dtpFechaHasta.Name = "dtpFechaHasta";
-            this.dtpFechaHasta.Size = new System.Drawing.Size(128, 20);
+            this.dtpFechaHasta.Size = new System.Drawing.Size(138, 20);
             this.dtpFechaHasta.TabIndex = 6;
             // 
             // lstRegistros
@@ -189,9 +189,9 @@
             this.groupBox.Controls.Add(this.dtpFechaDesde);
             this.groupBox.Controls.Add(this.dtpFechaHasta);
             this.groupBox.Controls.Add(this.btnBuscarRegistros);
-            this.groupBox.Location = new System.Drawing.Point(441, 12);
+            this.groupBox.Location = new System.Drawing.Point(423, 26);
             this.groupBox.Name = "groupBox";
-            this.groupBox.Size = new System.Drawing.Size(335, 304);
+            this.groupBox.Size = new System.Drawing.Size(335, 323);
             this.groupBox.TabIndex = 10;
             this.groupBox.TabStop = false;
             this.groupBox.Text = "Registros";

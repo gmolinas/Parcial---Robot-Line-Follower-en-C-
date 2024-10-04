@@ -10,14 +10,32 @@ namespace PracticoTrabajoDeDiploma.Controllers
     {
         private readonly IControladorMovimiento _controladorMovimiento;
         private readonly IStateChangeRepository _stateChangeRepository;
-
         private List<IObserver> _observers = new List<IObserver>();
+        public Movimiento MovimientoActual { get; private set; }
 
         public SensorState LecturaSensorIzquierdo { get; private set; }
         public SensorState LecturaSensorDerecho { get; private set; }
         public string AccionActual { get; private set; }
 
         private StateChangeRecord _ultimoRegistro;
+
+        public void Attach(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Detach(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void Notify()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update();
+            }
+        }
 
         public RobotController(IControladorMovimiento controladorMovimiento, IStateChangeRepository stateChangeRepository)
         {
@@ -27,9 +45,48 @@ namespace PracticoTrabajoDeDiploma.Controllers
 
         public void ActualizarEstado(SensorState lecturaIzquierda, SensorState lecturaDerecha)
         {
+            //LecturaSensorIzquierdo = lecturaIzquierda;
+            //LecturaSensorDerecho = lecturaDerecha;
+
+            //var nuevoRegistro = new StateChangeRecord
+            //{
+            //    FechaHora = DateTime.Now,
+            //    ValorSensor1 = LecturaSensorIzquierdo,
+            //    ValorSensor2 = LecturaSensorDerecho
+            //};
+
+            //// Verificar si hubo un cambio de estado
+            //if (_ultimoRegistro == null ||
+            //    _ultimoRegistro.ValorSensor1 != nuevoRegistro.ValorSensor1 ||
+            //    _ultimoRegistro.ValorSensor2 != nuevoRegistro.ValorSensor2)
+            //{
+            //    // Guardar el nuevo registro
+            //    _stateChangeRepository.GuardarRegistro(nuevoRegistro);
+            //    _ultimoRegistro = nuevoRegistro;
+            //}
+
+            //// Obtener el movimiento y actualizar la acción actual
+            //var movimiento = _controladorMovimiento.DeterminarMovimiento(LecturaSensorIzquierdo, LecturaSensorDerecho);
+            //AccionActual = ObtenerDescripcionAccion(movimiento);
+
+            //Notify();
+
             LecturaSensorIzquierdo = lecturaIzquierda;
             LecturaSensorDerecho = lecturaDerecha;
 
+            // Determinar el movimiento actual
+            MovimientoActual = _controladorMovimiento.DeterminarMovimiento(LecturaSensorIzquierdo, LecturaSensorDerecho);
+            AccionActual = ObtenerDescripcionAccion(MovimientoActual);
+
+            // Registro de cambios de estado y notificación a observadores
+            RegistrarCambioDeEstado();
+            Notify();
+
+        }
+
+
+        private void RegistrarCambioDeEstado()
+        {
             var nuevoRegistro = new StateChangeRecord
             {
                 FechaHora = DateTime.Now,
@@ -46,12 +103,6 @@ namespace PracticoTrabajoDeDiploma.Controllers
                 _stateChangeRepository.GuardarRegistro(nuevoRegistro);
                 _ultimoRegistro = nuevoRegistro;
             }
-
-            // Obtener el movimiento y actualizar la acción actual
-            var movimiento = _controladorMovimiento.DeterminarMovimiento(LecturaSensorIzquierdo, LecturaSensorDerecho);
-            AccionActual = ObtenerDescripcionAccion(movimiento);
-            
-            Notify();
         }
 
         private string ObtenerDescripcionAccion(Movimiento movimiento)
@@ -71,22 +122,5 @@ namespace PracticoTrabajoDeDiploma.Controllers
             return "Acción desconocida";
         }
 
-        public void Attach(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Detach(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
-
-        public void Notify()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
     }
 }
