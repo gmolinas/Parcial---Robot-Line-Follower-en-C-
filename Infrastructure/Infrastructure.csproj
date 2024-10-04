@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BinaryFileStateChangeRepository .cs" />
+    <Compile Include="Services\DatabaseStateChangeRepository .cs" />
     <Compile Include="Services\StateChangeService.cs" />
     <Compile Include="Tools\TypeLoader.cs" />
   </ItemGroup>
