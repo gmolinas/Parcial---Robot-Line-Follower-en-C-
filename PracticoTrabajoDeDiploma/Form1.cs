@@ -15,6 +15,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Application.Common;
+using Infrastructure.Tools;
+using System.Configuration;
 
 namespace PracticoTrabajoDeDiploma
 {
@@ -34,10 +36,12 @@ namespace PracticoTrabajoDeDiploma
         private void InicializarDependencias()
         {
             // Creación de instancias de lógica
+
             IControladorMovimiento controladorMovimiento = new ControladorMovimiento();
             IStateChangeRepository stateChangeRepository = new BinaryFileStateChangeRepository();
 
             // Creación del controlador del robot
+
             _robotController = new RobotController(controladorMovimiento, stateChangeRepository);
             _robotController.Attach(this);
 
@@ -59,31 +63,40 @@ namespace PracticoTrabajoDeDiploma
 
         private void ConfigurarEventos()
         {
-            btnSensorIzquierdoNegro.Click += BtnSensorIzquierdoNegro_Click;
-            btnSensorIzquierdoBlanco.Click += BtnSensorIzquierdoBlanco_Click;
-            btnSensorDerechoNegro.Click += BtnSensorDerechoNegro_Click;
-            btnSensorDerechoBlanco.Click += BtnSensorDerechoBlanco_Click;
-            btnBuscarRegistros.Click += BtnBuscarRegistros_Click;
+            btnSensorIzquierdoNegro.Click += BtnSensor_Click;
+            btnSensorIzquierdoBlanco.Click += BtnSensor_Click;
+            btnSensorDerechoNegro.Click += BtnSensor_Click;
+            btnSensorDerechoBlanco.Click += BtnSensor_Click;
+            btnBuscarRegistros.Click += BtnSensor_Click;
         }
 
-        private void BtnSensorIzquierdoNegro_Click(object sender, EventArgs e)
+        private void BtnSensor_Click(object sender, EventArgs e)
         {
-            ActualizarEstadoSensores(SensorState.Negro, _robotController.LecturaSensorDerecho);
-        }
+            var button = sender as Button;
+            if (button == null)
+                return;
 
-        private void BtnSensorIzquierdoBlanco_Click(object sender, EventArgs e)
-        {
-            ActualizarEstadoSensores(SensorState.Blanco, _robotController.LecturaSensorDerecho);
-        }
+            SensorState sensorIzquierdo = _robotController.LecturaSensorIzquierdo;
+            SensorState sensorDerecho = _robotController.LecturaSensorDerecho;
 
-        private void BtnSensorDerechoNegro_Click(object sender, EventArgs e)
-        {
-            ActualizarEstadoSensores(_robotController.LecturaSensorIzquierdo, SensorState.Negro);
-        }
+            // Determinar qué botón fue presionado utilizando su Name o Tag
+            switch (button.Name)
+            {
+                case "btnSensorIzquierdoNegro":
+                    sensorIzquierdo = SensorState.Negro;
+                    break;
+                case "btnSensorIzquierdoBlanco":
+                    sensorIzquierdo = SensorState.Blanco;
+                    break;
+                case "btnSensorDerechoNegro":
+                    sensorDerecho = SensorState.Negro;
+                    break;
+                case "btnSensorDerechoBlanco":
+                    sensorDerecho = SensorState.Blanco;
+                    break;
+            }
 
-        private void BtnSensorDerechoBlanco_Click(object sender, EventArgs e)
-        {
-            ActualizarEstadoSensores(_robotController.LecturaSensorIzquierdo, SensorState.Blanco);
+            ActualizarEstadoSensores(sensorIzquierdo, sensorDerecho);
         }
 
         private void ActualizarEstadoSensores(SensorState sensorIzquierdo, SensorState sensorDerecho)
@@ -116,9 +129,7 @@ namespace PracticoTrabajoDeDiploma
             lstRegistros.Items.Clear();
             foreach (var registro in registros)
             {
-                var item = new ListViewItem(registro.FechaHora.ToString());
-                item.SubItems.Add(registro.ValorSensor1.ToString());
-                item.SubItems.Add(registro.ValorSensor2.ToString());
+                var item = new ListViewItem($"{registro.FechaHora.ToString()}, S1:[{registro.ValorSensor1.ToString()}], S2 [{registro.ValorSensor2.ToString()}] -");
                 lstRegistros.Items.Add(item);
             }
         }

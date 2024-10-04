@@ -10,6 +10,7 @@ namespace PracticoTrabajoDeDiploma.Controllers
     {
         private readonly IControladorMovimiento _controladorMovimiento;
         private readonly IStateChangeRepository _stateChangeRepository;
+
         private List<IObserver> _observers = new List<IObserver>();
 
         public SensorState LecturaSensorIzquierdo { get; private set; }
