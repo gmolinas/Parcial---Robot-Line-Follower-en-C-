@@ -18,7 +18,7 @@ using Application.Common;
 
 namespace PracticoTrabajoDeDiploma
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IObserver
     {
 
         private RobotController _robotController;
@@ -39,10 +39,24 @@ namespace PracticoTrabajoDeDiploma
 
             // Creación del controlador del robot
             _robotController = new RobotController(controladorMovimiento, stateChangeRepository);
+            _robotController.Attach(this);
 
             // Creación del servicio de registros
             _stateChangeService = new StateChangeService(stateChangeRepository);
         }
+
+        public void Update()
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action(ActualizarInterfaz));
+            }
+            else
+            {
+                ActualizarInterfaz();
+            }
+        }
+
         private void ConfigurarEventos()
         {
             btnSensorIzquierdoNegro.Click += BtnSensorIzquierdoNegro_Click;
@@ -84,6 +98,14 @@ namespace PracticoTrabajoDeDiploma
             lblSensorDerecho.Text = _robotController.LecturaSensorDerecho.ToString();
             lblAccion.Text = _robotController.AccionActual;
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // Desuscribir la UI al cerrar el formulario
+            _robotController.Detach(this);
+            base.OnFormClosing(e);
+        }
+
 
         private void BtnBuscarRegistros_Click(object sender, EventArgs e)
         {
